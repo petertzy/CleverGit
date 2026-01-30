@@ -16,15 +16,17 @@ def commit_all(client: GitClient, message: str, allow_empty: bool = False) -> Co
     commits = client.log(max_count=1)
     if commits:
         c = commits[0]
+        sha = c.get('sha', commit_hash)
         return CommitInfo(
-            hash=c.get('sha', commit_hash),
+            sha=sha,
+            short_sha=sha[:7],
             message=c.get('message', message),
-            author_name=c.get('author', ''),
+            author=c.get('author', ''),
             author_email=c.get('author_email', ''),
-            timestamp=int(c.get('date').timestamp()) if c.get('date') else 0,
-            body=""
+            date=c.get('date'),
+            parents=c.get('parents', [])
         )
-    return CommitInfo(hash=commit_hash, message=message, author_name="", author_email="", timestamp=0, body="")
+    return CommitInfo(sha=commit_hash, short_sha=commit_hash[:7], message=message, author="", author_email="", date=None, parents=[])
 
 
 def commit_files(client: GitClient, files: List[str], message: str) -> CommitInfo:
@@ -37,15 +39,17 @@ def commit_files(client: GitClient, files: List[str], message: str) -> CommitInf
     commits = client.log(max_count=1)
     if commits:
         c = commits[0]
+        sha = c.get('sha', commit_hash)
         return CommitInfo(
-            hash=c.get('sha', commit_hash),
+            sha=sha,
+            short_sha=sha[:7],
             message=c.get('message', message),
-            author_name=c.get('author', ''),
+            author=c.get('author', ''),
             author_email=c.get('author_email', ''),
-            timestamp=int(c.get('date').timestamp()) if c.get('date') else 0,
-            body=""
+            date=c.get('date'),
+            parents=c.get('parents', [])
         )
-    return CommitInfo(hash=commit_hash, message=message, author_name="", author_email="", timestamp=0, body="")
+    return CommitInfo(sha=commit_hash, short_sha=commit_hash[:7], message=message, author="", author_email="", date=None, parents=[])
 
 
 def amend_commit(client: GitClient, message: Optional[str] = None) -> str:

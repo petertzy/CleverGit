@@ -39,8 +39,8 @@ def create_commit(
             )
             raise typer.Exit(1)
         
-        typer.secho(f"✓ Created commit {commit.hash[:7]}", fg=typer.colors.GREEN)
-        typer.echo(f"  {commit.message}")
+        typer.secho(f"✓ Created commit {commit.short_sha}", fg=typer.colors.GREEN)
+        typer.echo(f"  {commit.subject}")
         
     except Exception as e:
         typer.secho(f"Error: {e}", fg=typer.colors.RED, err=True)
