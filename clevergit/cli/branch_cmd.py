@@ -81,7 +81,7 @@ def list_branches(
     
     try:
         repo = Repo.open(repo_path)
-        branches = repo.list_branches(include_remote=all)
+        branches = repo.list_branches(remote=all)
         
         output = format_branches(branches)
         typer.echo(output)

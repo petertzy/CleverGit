@@ -32,11 +32,19 @@ def get_log(
     client = GitClient(repo_path)
     
     try:
-        commits = client.log(
-            max_count=max_count,
-            branch=branch,
-            file_path=file_path
-        )
+        commits_data = client.log(max_count=max_count, branch=branch)
+        # Convert dict to CommitInfo
+        commits = []
+        for c in commits_data:
+            commits.append(CommitInfo(
+                sha=c.get('sha', ''),
+                short_sha=c.get('sha', '')[:7] if c.get('sha') else '',
+                message=c.get('message', ''),
+                author=c.get('author', ''),
+                author_email=c.get('author_email', ''),
+                date=c.get('date'),
+                parents=c.get('parents', [])
+            ))
         return commits
     except Exception as e:
         raise CleverGitError(f"Failed to get commit log: {e}")

@@ -94,14 +94,13 @@ def format_branches(branches: List[BranchInfo]) -> str:
         line = f"{prefix}{branch.name}"
         
         # Add tracking info if available
-        if branch.tracking_branch:
-            ahead, behind = branch.tracking_status
-            if ahead > 0 or behind > 0:
+        if branch.upstream:
+            if branch.ahead > 0 or branch.behind > 0:
                 tracking_info = []
-                if ahead > 0:
-                    tracking_info.append(f"ahead {ahead}")
-                if behind > 0:
-                    tracking_info.append(f"behind {behind}")
+                if branch.ahead > 0:
+                    tracking_info.append(f"ahead {branch.ahead}")
+                if branch.behind > 0:
+                    tracking_info.append(f"behind {branch.behind}")
                 line += f" [{', '.join(tracking_info)}]"
         
         lines.append(line)

@@ -75,5 +75,10 @@ class Repo:
         """Check if the working directory is clean."""
         return self.client.is_clean()
     
+    def log(self, max_count: int = 10) -> List:
+        """Get commit log."""
+        from clevergit.core.log import get_log
+        return get_log(self.path, max_count=max_count)
+    
     def __repr__(self) -> str:
         return f"<Repo: {self.path}>"

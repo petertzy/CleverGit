@@ -1,168 +1,168 @@
-# 项目说明文档（CleverGit - Git 客户端，Python 实现）
+# Project Documentation (CleverGit - Git Client, Python Implementation)
 
-## 1. 项目背景与目标
+## 1. Project Background & Goals
 
-本项目旨在使用 **Python** 开发一个高级 Git 客户端工具 CleverGit，重点功能：
+This project aims to develop an advanced Git client tool **CleverGit** using **Python**, with focus on:
 
-* 提供 **更友好、更高层次** 的 Git 操作封装
-* 降低日常 Git 使用门槛（尤其是复杂命令）
-* 支持 **CLI 优先，GUI 可扩展** 的架构设计
-* 代码结构清晰，方便后续使用 **GitHub Copilot / AI** 辅助完善
+* Provide **more user-friendly, higher-level** Git operation abstractions
+* Lower the learning curve for daily Git usage (especially complex commands)
+* Support **CLI-first, GUI-extensible** architecture design
+* Clear code structure, convenient for future enhancement with **GitHub Copilot / AI** assistance
 
-项目目标用户：
+Target users:
 
-* 熟悉 Git 基本概念，但不想频繁记命令的开发者
-* 希望在脚本 / 工具链中以 Python 方式操作 Git 的用户
+* Developers familiar with Git basics but don't want to memorize commands frequently
+* Users who want to operate Git in Python within scripts / toolchains
 
 ---
 
-## 2. 设计原则
+## 2. Design Principles
 
-1. **高层语义，而非命令拼接**
-   例如：
+1. **High-level semantics, not command concatenation**
+   Example:
 
    * `repo.commit_all("fix login bug")`
-   * 而不是 `git commit -am "..."`
+   * Instead of `git commit -am "..."`
 
-2. **可读性优先**
-   类名、方法名尽量表达「用户意图」而不是 Git 细节
+2. **Readability first**
+   Class names and method names should express "user intent" rather than Git details
 
-3. **模块化 & 可扩展**
+3. **Modular & Extensible**
 
-   * CLI / GUI / API 解耦
-   * 后期可加 TUI / Web UI
+   * Decouple CLI / GUI / API
+   * Can add TUI / Web UI later
 
-4. **失败可解释**
+4. **Failure is explainable**
 
-   * 尽量将 Git 错误转换为「人类可理解」的异常信息
+   * Convert Git errors to "human-readable" exception messages
 
 ---
 
-## 3. 技术选型
+## 3. Technology Stack
 
 * Python >= 3.10
-* Git 调用方式：
+* Git calling methods:
 
-  * 优先：`GitPython`
-  * 兜底：`subprocess`（处理 GitPython 不支持的场景）
-* CLI 框架：
+  * Preferred: `GitPython`
+  * Fallback: `subprocess` (for scenarios GitPython doesn't support)
+* CLI framework:
 
-  * `typer`（推荐，类型友好，适合 Copilot）
-* GUI（后期）：
+  * `typer` (recommended, type-friendly, Copilot-compatible)
+* GUI (future):
 
-  * `PySide6` 或 `Tkinter`
+  * `PySide6` or `Tkinter`
 
 ---
 
-## 4. 核心功能规划
+## 4. Core Feature Planning
 
-### 4.1 仓库管理
+### 4.1 Repository Management
 
-* 打开 / 初始化仓库
-* 检测仓库状态
-* 当前分支、HEAD 状态
+* Open / Initialize repository
+* Detect repository status
+* Current branch, HEAD status
 
 ```text
-✔ 是否是 Git 仓库
-✔ 是否存在未提交修改
-✔ 是否落后 / 超前远程分支
+✔ Is it a Git repository
+✔ Are there uncommitted changes
+✔ Is it behind / ahead of remote branch
 ```
 
 ---
 
-### 4.2 状态视图（Status）
+### 4.2 Status View
 
-* 已修改（modified）
-* 未跟踪（untracked）
-* 已暂存（staged）
-* 冲突文件（conflicted）
+* Modified files
+* Untracked files
+* Staged files
+* Conflicted files
 
-支持：
+Support:
 
-* 按文件类型分组
-* 输出为结构化对象，方便 UI 使用
-
----
-
-### 4.3 提交（Commit）
-
-* 提交所有变更
-* 选择性提交（指定文件）
-* 自动生成 commit message（可选）
-* commit 前检查（lint / test 钩子）
+* Group by file type
+* Output as structured objects for UI use
 
 ---
 
-### 4.4 分支管理
+### 4.3 Commit
 
-* 列出分支（本地 / 远程）
-* 创建 / 删除 / 重命名分支
-* 切换分支
-* 显示分支关系（简单 DAG）
-
----
-
-### 4.5 合并 & Rebase（高层封装）
-
-* 安全合并（检测冲突）
-* Rebase 向导式流程（一步一步）
-* 冲突文件列表 + 提示
+* Commit all changes
+* Selective commit (specific files)
+* Auto-generate commit message (optional)
+* Pre-commit checks (lint / test hooks)
 
 ---
 
-### 4.6 远程仓库操作
+### 4.4 Branch Management
+
+* List branches (local / remote)
+* Create / Delete / Rename branches
+* Switch branches
+* Display branch relationships (simple DAG)
+
+---
+
+### 4.5 Merge & Rebase (High-level Wrapper)
+
+* Safe merge (detect conflicts)
+* Interactive rebase workflow (step-by-step)
+* Conflict file list + hints
+
+---
+
+### 4.6 Remote Repository Operations
 
 * fetch / pull / push
-* 显示即将 push / pull 的提交
-* force push 风险提示
+* Show commits to be pushed / pulled
+* force push risk warning
 
 ---
 
-### 4.7 历史记录（Log）
+### 4.7 History (Log)
 
-* 简洁日志视图（类似 `git log --oneline --graph`）
-* 按作者 / 时间 / 分支过滤
-* 单条 commit 详情
+* Concise log view (like `git log --oneline --graph`)
+* Filter by author / time / branch
+* Single commit details
 
 ---
 
-## 5. 项目文件结构（建议）
+## 5. Project File Structure (Recommended)
 
 ```text
-clevergit_py/
+clevergit/
 ├── README.md
 ├── pyproject.toml
 ├── clevergit/
 │   ├── __init__.py
-│   ├── core/                  # 核心 Git 逻辑
-│   │   ├── repo.py             # 仓库对象（核心入口）
-│   │   ├── status.py           # 状态分析
-│   │   ├── commit.py           # 提交相关逻辑
-│   │   ├── branch.py           # 分支管理
+│   ├── core/                  # Core Git logic
+│   │   ├── repo.py             # Repository object (core entry point)
+│   │   ├── status.py           # Status analysis
+│   │   ├── commit.py           # Commit logic
+│   │   ├── branch.py           # Branch management
 │   │   ├── merge.py            # merge / rebase
 │   │   ├── remote.py           # fetch / pull / push
-│   │   └── log.py              # 历史记录
+│   │   └── log.py              # History records
 │   │
-│   ├── git/                    # Git 适配层
-│   │   ├── client.py           # GitPython / subprocess 封装
-│   │   └── errors.py           # Git 错误 → 业务异常
+│   ├── git/                    # Git adapter layer
+│   │   ├── client.py           # GitPython / subprocess wrapper
+│   │   └── errors.py           # Git errors → business exceptions
 │   │
-│   ├── cli/                    # CLI 层
-│   │   ├── app.py              # Typer 入口
+│   ├── cli/                    # CLI layer
+│   │   ├── app.py              # Typer entry point
 │   │   ├── repo_cmd.py
 │   │   ├── commit_cmd.py
 │   │   └── branch_cmd.py
 │   │
-│   ├── ui/                     # GUI / TUI（预留）
+│   ├── ui/                     # GUI / TUI (reserved)
 │   │   └── __init__.py
 │   │
-│   ├── models/                 # 领域模型（DTO）
+│   ├── models/                 # Domain models (DTO)
 │   │   ├── file_status.py
 │   │   ├── commit_info.py
 │   │   └── branch_info.py
 │   │
 │   └── utils/
-│       ├── formatter.py        # 输出格式化
+│       ├── formatter.py        # Output formatting
 │       └── helpers.py
 │
 └── tests/
@@ -173,9 +173,9 @@ clevergit_py/
 
 ---
 
-## 6. 核心对象设计示例
+## 6. Core Object Design Example
 
-### Repo（核心入口）
+### Repo (Core Entry Point)
 
 ```python
 repo = Repo.open(".")
@@ -186,14 +186,14 @@ repo.create_branch("feature/auth")
 repo.checkout("feature/auth")
 ```
 
-设计目标：
+Design goals:
 
-* **一个 Repo 对象 = 一个 Git 仓库**
-* 绝大多数功能从这里开始
+* **One Repo object = One Git repository**
+* Most features start from here
 
 ---
 
-## 7. CLI 设计示例
+## 7. CLI Design Example
 
 ```bash
 sg status
@@ -203,52 +203,52 @@ sg branch switch main
 sg log --oneline
 ```
 
-CLI 原则：
+CLI principles:
 
-* 命令短
-* 不要求用户理解 Git 细节参数
+* Short commands
+* Don't require users to understand Git detail parameters
 
 ---
 
-## 8. 错误处理策略
+## 8. Error Handling Strategy
 
-* Git 原始错误 → 自定义异常
-* CLI 层捕获异常 → 用户友好提示
+* Git raw errors → Custom exceptions
+* CLI layer catches exceptions → User-friendly hints
 
-示例：
+Example:
 
 ```text
-❌ 当前分支存在未提交修改，无法切换分支
-建议：
-- 提交修改
-- 或使用 sg stash
+❌ Current branch has uncommitted changes, cannot switch branches
+Suggestions:
+- Commit changes
+- Or use sg stash
 ```
 
 ---
 
-## 9. 与 Copilot 协作建议
+## 9. Copilot Collaboration Suggestions
 
-* 每个模块：
+* For each module:
 
-  * 先写 **清晰的 docstring**
-  * 明确输入 / 输出类型
-* 拆分小函数，避免“巨型方法”
-* 在 TODO 中明确业务语义，而不是技术细节
-
----
-
-## 10. 后续可扩展方向
-
-* GUI（图形界面）
-* AI 辅助：
-
-  * 自动生成 commit message
-  * 冲突解决建议
-* 插件系统（hooks）
-* Git Flow / Trunk Based 流程支持
+  * Write **clear docstrings** first
+  * Specify input / output types clearly
+* Break into small functions, avoid "giant methods"
+* Use clear business semantics in TODOs, not technical details
 
 ---
 
-## 11. 项目一句话总结
+## 10. Future Expansion Directions
 
-> 用 Python 封装 Git 的“意图层”，让 Git 像对象一样被使用，而不是像咒语一样被记忆。
+* GUI (graphical interface)
+* AI assistance:
+
+  * Auto-generate commit messages
+  * Conflict resolution suggestions
+* Plugin system (hooks)
+* Git Flow / Trunk Based workflow support
+
+---
+
+## 11. One-Sentence Project Summary
+
+> Wrap Git's "intent layer" in Python, make Git usable like objects, not remembered like incantations.
