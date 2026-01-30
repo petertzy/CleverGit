@@ -3,22 +3,29 @@
 from typing import List, Optional
 from clevergit.git.client import GitClient
 from clevergit.git.errors import CommitError, NothingToCommitError
+from clevergit.models.commit_info import CommitInfo
 
 
-def commit_all(client: GitClient, message: str, allow_empty: bool = False) -> str:
+def commit_all(client: GitClient, message: str, allow_empty: bool = False) -> CommitInfo:
     """Commit all changes (tracked and untracked files)."""
     if not allow_empty and client.is_clean():
         raise NothingToCommitError("No changes to commit")
     client.add_all()
-    return client.commit(message, allow_empty=allow_empty)
+    commit_hash = client.commit(message, allow_empty=allow_empty)
+    # Get the commit info
+    commits = client.log(max_count=1)
+    return commits[0] if commits else CommitInfo(hash=commit_hash, message=message, author_name="", author_email="", timestamp=0, body="")
 
 
-def commit_files(client: GitClient, files: List[str], message: str) -> str:
+def commit_files(client: GitClient, files: List[str], message: str) -> CommitInfo:
     """Commit specific files."""
     if not files:
         raise CommitError("No files specified for commit")
     client.add(files)
-    return client.commit(message)
+    commit_hash = client.commit(message)
+    # Get the commit info
+    commits = client.log(max_count=1)
+    return commits[0] if commits else CommitInfo(hash=commit_hash, message=message, author_name="", author_email="", timestamp=0, body="")
 
 
 def amend_commit(client: GitClient, message: Optional[str] = None) -> str:
