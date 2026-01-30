@@ -14,7 +14,17 @@ def commit_all(client: GitClient, message: str, allow_empty: bool = False) -> Co
     commit_hash = client.commit(message, allow_empty=allow_empty)
     # Get the commit info
     commits = client.log(max_count=1)
-    return commits[0] if commits else CommitInfo(hash=commit_hash, message=message, author_name="", author_email="", timestamp=0, body="")
+    if commits:
+        c = commits[0]
+        return CommitInfo(
+            hash=c.get('sha', commit_hash),
+            message=c.get('message', message),
+            author_name=c.get('author', ''),
+            author_email=c.get('author_email', ''),
+            timestamp=int(c.get('date').timestamp()) if c.get('date') else 0,
+            body=""
+        )
+    return CommitInfo(hash=commit_hash, message=message, author_name="", author_email="", timestamp=0, body="")
 
 
 def commit_files(client: GitClient, files: List[str], message: str) -> CommitInfo:
@@ -25,7 +35,17 @@ def commit_files(client: GitClient, files: List[str], message: str) -> CommitInf
     commit_hash = client.commit(message)
     # Get the commit info
     commits = client.log(max_count=1)
-    return commits[0] if commits else CommitInfo(hash=commit_hash, message=message, author_name="", author_email="", timestamp=0, body="")
+    if commits:
+        c = commits[0]
+        return CommitInfo(
+            hash=c.get('sha', commit_hash),
+            message=c.get('message', message),
+            author_name=c.get('author', ''),
+            author_email=c.get('author_email', ''),
+            timestamp=int(c.get('date').timestamp()) if c.get('date') else 0,
+            body=""
+        )
+    return CommitInfo(hash=commit_hash, message=message, author_name="", author_email="", timestamp=0, body="")
 
 
 def amend_commit(client: GitClient, message: Optional[str] = None) -> str:
