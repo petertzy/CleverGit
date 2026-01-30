@@ -1,5 +1,93 @@
 # Project Documentation (CleverGit - Git Client, Python Implementation)
 
+## Quick Start
+
+CleverGit provides **two ways to interact** with your Git repositories:
+
+### 🖥️ **Graphical User Interface (GUI)**
+
+Launch the GUI application for an intuitive, visual Git experience:
+
+```bash
+sgg
+# or
+python -m clevergit.ui.main
+```
+
+**Features:**
+- Point-and-click repository management
+- Visual file status display
+- Branch management with drag-and-drop
+- Commit history viewer
+- Dialog-based operations
+
+👉 **For detailed GUI documentation, see [GUI_USAGE.md](GUI_USAGE.md)**
+
+### 💻 **Command Line Interface (CLI)**
+
+Use powerful command-line commands for scriptable Git operations:
+
+```bash
+# View repository status
+sg status
+
+# Commit all changes
+sg commit all -m "feat: add new feature"
+
+# View commit history
+sg log --oneline
+
+# Manage branches
+sg branch list
+sg branch new feature/auth
+sg branch switch main
+```
+
+**Features:**
+- Fast, efficient terminal-based workflow
+- Scriptable operations
+- Batch processing support
+- Integration with other tools
+
+### 🐍 **Python API**
+
+Use CleverGit programmatically in your Python scripts:
+
+```python
+from clevergit import Repo
+
+# Open repository
+repo = Repo.open(".")
+
+# Check status
+status = repo.status()
+print(f"Modified files: {len(status.modified)}")
+
+# Create commit
+repo.commit_all("fix: resolve issue")
+
+# Branch operations
+repo.create_branch("feature/new")
+repo.checkout("feature/new")
+```
+
+### 📦 Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/petertzy/CleverGit.git
+cd CleverGit
+
+# Install with all features
+pip install -e .
+
+# Verify installation
+sgg --version  # GUI version check
+sg --version   # CLI version check
+```
+
+---
+
 ## 1. Project Background & Goals
 
 This project aims to develop an advanced Git client tool **CleverGit** using **Python**, with focus on:
