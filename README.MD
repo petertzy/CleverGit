@@ -83,10 +83,10 @@ repo.checkout("feature/new")
 ### 📦 Installation
 
 ```bash
-# Install from PyPI
+# Install from PyPI (recommended)
 pip install clevergit
 
-# (Optional) Install from source for development
+# Install from source (development)
 git clone https://github.com/petertzy/CleverGit.git
 cd CleverGit
 pip install -e .
