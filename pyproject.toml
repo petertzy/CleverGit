@@ -1,0 +1,56 @@
+[project]
+name = "clevergit"
+version = "0.1.0"
+description = "A CleverGit-like Git client tool with high-level abstractions"
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "GitPython>=3.1.40",
+    "typer>=0.9.0",
+    "rich>=13.7.0",
+    "PySide6>=6.6.0",
+    "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+gui = [
+    "PySide6>=6.6.0",
+]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.7.0",
+]
+
+[project.scripts]
+sg = "clevergit.cli.app:main"
+sgg = "clevergit.ui.main:main"
+
+[build-system]
+requires = ["setuptools>=68.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 100
+target-version = ['py310', 'py311', 'py312']
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
