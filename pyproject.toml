@@ -3,10 +3,23 @@ name = "clevergit"
 version = "0.1.0"
 description = "A CleverGit-like Git client tool with high-level abstractions"
 authors = [
-    {name = "Your Name", email = "your.email@example.com"}
+    {name = "petertzy"}
 ]
-readme = "README.md"
+readme = "README.MD"
 requires-python = ">=3.9"
+license = {text = "MIT"}
+keywords = ["git", "version-control", "cli", "gui", "git-client"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Version Control :: Git",
+]
 dependencies = [
     "GitPython>=3.1.40",
     "typer>=0.9.0",
@@ -14,6 +27,11 @@ dependencies = [
     "PySide6>=6.6.0",
     "requests>=2.31.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/petertzy/CleverGit"
+Repository = "https://github.com/petertzy/CleverGit"
+Issues = "https://github.com/petertzy/CleverGit/issues"
 
 [project.optional-dependencies]
 gui = [
