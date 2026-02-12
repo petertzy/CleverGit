@@ -96,6 +96,46 @@ sgg --version  # GUI version check
 sg --version   # CLI version check
 ```
 
+### 🚀 Publishing to PyPI (Maintainers)
+
+Use this checklist to publish a new release to PyPI.
+
+1. Update version numbers:
+  - `pyproject.toml` -> `project.version`
+  - `clevergit/__init__.py` -> `__version__`
+2. Commit and tag:
+
+```bash
+git add pyproject.toml clevergit/__init__.py
+git commit -m "chore: bump version to vX.Y.Z"
+git tag vX.Y.Z
+git push origin main
+git push origin vX.Y.Z
+```
+
+3. Build the package:
+
+```bash
+python -m pip install --upgrade build twine
+rm -rf dist build
+python -m build
+python -m twine check dist/*
+```
+
+4. Upload to PyPI:
+
+```bash
+python -m twine upload dist/*
+```
+
+When prompted:
+- Username: `__token__`
+- Password: your PyPI API token (starts with `pypi-`)
+
+If you do not have a token yet:
+1. Enable 2FA for your PyPI account.
+2. Create a token at https://pypi.org/manage/account/token/
+
 ---
 
 ## 1. Project Background & Goals
