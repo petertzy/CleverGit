@@ -62,7 +62,7 @@ sg branch switch main
 - Batch processing support
 - Integration with other tools
 
-### 🐍 **Python API**
+### 💻 **Python API**
 
 Use CleverGit programmatically in your Python scripts:
 
