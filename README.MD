@@ -104,7 +104,6 @@ This project aims to develop an advanced Git client tool **CleverGit** using **P
 * Provide **more user-friendly, higher-level** Git operation abstractions
 * Lower the learning curve for daily Git usage (especially complex commands)
 * Support **CLI-first, GUI-extensible** architecture design
-* Clear code structure, convenient for future enhancement with **GitHub Copilot / AI** assistance
 
 Target users:
 
@@ -144,7 +143,7 @@ Target users:
   * Fallback: `subprocess` (for scenarios GitPython doesn't support)
 * CLI framework:
 
-  * `typer` (recommended, type-friendly, Copilot-compatible)
+  * `typer` (recommended, type-friendly)
 * GUI (future):
 
   * `PySide6` or `Tkinter`
@@ -323,18 +322,7 @@ Suggestions:
 
 ---
 
-## 9. Copilot Collaboration Suggestions
-
-* For each module:
-
-  * Write **clear docstrings** first
-  * Specify input / output types clearly
-* Break into small functions, avoid "giant methods"
-* Use clear business semantics in TODOs, not technical details
-
----
-
-## 10. Future Expansion Directions
+## 9. Future Expansion Directions
 
 * GUI (graphical interface)
 * AI assistance:
@@ -346,6 +334,6 @@ Suggestions:
 
 ---
 
-## 11. One-Sentence Project Summary
+## 10. One-Sentence Project Summary
 
 > Wrap Git's "intent layer" in Python, make Git usable like objects, not remembered like incantations.

@@ -208,7 +208,7 @@ The stash management implementation is **complete and production-ready**. All re
 ## References
 
 - Issue: [Phase 1] Implement Stash Management
-- Branch: copilot/implement-stash-management
+- Branch: example_branch
 - Total Commits: 5
 - Lines of Code: 1,353
 
