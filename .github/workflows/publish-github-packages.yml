@@ -29,10 +29,18 @@ jobs:
       run: |
         python -m build
     
-    - name: Publish to GitHub Packages
-      env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-        TWINE_REPOSITORY_URL: https://python.pkg.github.com/petertzy/CleverGit
+    - name: Publish to TestPyPI (GitHub Packages)
       run: |
-        twine upload dist/*
+        twine upload dist/* \
+          --repository testpypi \
+          --username __token__ \
+          --password ${{ secrets.GITHUB_TOKEN }} \
+          --skip-existing
+      continue-on-error: true
+    
+    - name: Publish to PyPI
+      run: |
+        twine upload dist/* \
+          --username __token__ \
+          --password ${{ secrets.PYPI_API_TOKEN }} \
+          --skip-existing
