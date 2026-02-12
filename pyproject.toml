@@ -1,6 +1,6 @@
 [project]
 name = "clevergit"
-version = "0.1.0"
+version = "0.1.1"
 description = "A CleverGit-like Git client tool with high-level abstractions"
 authors = [
     {name = "petertzy"}

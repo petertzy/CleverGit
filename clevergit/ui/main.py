@@ -8,15 +8,20 @@ from PySide6.QtWidgets import QApplication
 from clevergit.ui.windows.main_window import MainWindow
 from clevergit.ui.themes import get_theme_manager
 from clevergit.ui.settings import Settings
+from clevergit import __version__
 
 
 def main() -> None:
     """Start the CleverGit GUI application."""
+    if "--version" in sys.argv or "-V" in sys.argv:
+        print(f"CleverGit GUI v{__version__}")
+        return
+
     app = QApplication(sys.argv)
 
     # Set application metadata
     app.setApplicationName("CleverGit")
-    app.setApplicationVersion("0.1.0")
+    app.setApplicationVersion("0.1.1")
 
     # Initialize theme system
     theme_manager = get_theme_manager()
