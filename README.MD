@@ -382,3 +382,63 @@ Suggestions:
 ## 10. One-Sentence Project Summary
 
 > Wrap Git's "intent layer" in Python, make Git usable like objects, not remembered like incantations.
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions from everyone! CleverGit is an open-source project, and your help is essential to making it better.
+
+### How You Can Contribute
+
+- 🐛 **Report bugs** - Found an issue? Let us know!
+- 💡 **Suggest features** - Have ideas for improvements?
+- 📝 **Improve documentation** - Help make the docs clearer
+- 🔧 **Submit pull requests** - Fix bugs or add features
+- ⭐ **Star the project** - Show your support!
+- 🌍 **Translate** - Help make CleverGit accessible to more users
+
+### Getting Started
+
+1. Fork the repository
+2. Clone your fork
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/CleverGit.git
+   cd CleverGit
+   ```
+3. Create a feature branch
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+4. Make your changes and commit
+   ```bash
+   git commit -m "feat: add awesome feature"
+   ```
+5. Push and create a pull request
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+### Development Setup
+
+```bash
+# Install in development mode
+pip install -e ".[dev]"
+
+# Run tests
+pytest
+
+# Check code quality
+black .
+ruff check .
+```
+
+### Questions?
+
+Feel free to open an [issue](https://github.com/petertzy/CleverGit/issues) or start a discussion!
+
+---
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
