@@ -15,9 +15,10 @@ CleverGit provides **two ways to interact** with your Git repositories:
 Launch the GUI application for an intuitive, visual Git experience:
 
 ```bash
-sgg
-# or
 python -m clevergit.ui.main
+# or
+pip install clevergit
+sgg
 ```
 
 **Features:**
