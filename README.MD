@@ -4,6 +4,8 @@
 
 **Available on PyPI**: [clevergit](https://pypi.org/project/clevergit/)
 
+<img width="1431" height="753" alt="Image" src="https://github.com/user-attachments/assets/5a3ece7d-27e6-46b1-9603-ed9864407182" />
+
 ## Quick Start
 
 CleverGit provides **two ways to interact** with your Git repositories:
