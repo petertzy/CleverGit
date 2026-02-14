@@ -329,8 +329,11 @@ class MainWindow(QMainWindow):
         )
 
     def _enforce_window_size(self) -> None:
-        """Enforce the window size to 60% of screen."""
-        pass
+        """Keep the main window aligned to the current screen size."""
+        if self.isMaximized():
+            return
+        x, y, width, height = self._get_adaptive_window_size(WINDOW_TYPE_MAIN)
+        self.setGeometry(x, y, width, height)
 
     def _log_window_size(self) -> None:
         """Log current window size for debugging."""
@@ -338,7 +341,7 @@ class MainWindow(QMainWindow):
 
     def _final_size_enforcement(self) -> None:
         """Final enforcement of window size after all UI initialization is complete."""
-        pass
+        self._enforce_window_size()
 
     def _get_current_tab(self) -> Optional[RepositoryTab]:
         """Get the currently active repository tab."""
@@ -427,7 +430,7 @@ class MainWindow(QMainWindow):
         self._update_ui_state()
         self._save_session()
 
-        # Force window size to remain at 60% after opening repository
+        # Keep the main window matched to screen size after opening a repository
         # Use a timer to ensure layout is complete before resizing
         from PySide6.QtCore import QTimer
 
@@ -597,28 +600,25 @@ class MainWindow(QMainWindow):
             screen_geometry = screen.availableGeometry()
             screen_width = screen_geometry.width()
             screen_height = screen_geometry.height()
+            screen_x = screen_geometry.x()
+            screen_y = screen_geometry.y()
         else:
             # Fallback to default if screen detection fails
             screen_width = _DEFAULT_SCREEN_WIDTH
             screen_height = _DEFAULT_SCREEN_HEIGHT
+            screen_x = 0
+            screen_y = 0
 
         # Calculate window dimensions as percentage of screen size
-        # Use 75% of screen size for mini laptops
         if size_type == WINDOW_TYPE_MAIN:
-            # Main window: adaptive sizing with min/max constraints
-            width_pct = 0.75  # 75% of screen width
-            height_pct = 0.75  # 75% of screen height
-            # Apply percentage, absolute limits, and screen percentage cap in one operation
-            width = min(
-                max(int(screen_width * width_pct), _MIN_MAIN_WINDOW_WIDTH),
-                _MAX_MAIN_WINDOW_WIDTH,
-                int(screen_width * _MAX_MAIN_WINDOW_SCREEN_PCT),
-            )
-            height = min(
-                max(int(screen_height * height_pct), _MIN_MAIN_WINDOW_HEIGHT),
-                _MAX_MAIN_WINDOW_HEIGHT,
-                int(screen_height * _MAX_MAIN_WINDOW_SCREEN_PCT),
-            )
+            window_handle = self.windowHandle()
+            if window_handle:
+                margins = window_handle.frameMargins()
+                screen_x += margins.left()
+                screen_y += margins.top()
+                screen_width = max(1, screen_width - margins.left() - margins.right())
+                screen_height = max(1, screen_height - margins.top() - margins.bottom())
+            return screen_x, screen_y, screen_width, screen_height
         elif size_type == WINDOW_TYPE_DIFF:
             # Diff dialog: adaptive sizing with min/max constraints
             width_pct = 0.75  # 75% of screen width
@@ -650,21 +650,23 @@ class MainWindow(QMainWindow):
                 int(screen_height * _MAX_DIALOG_SCREEN_PCT),
             )
 
-        # Align window to top-left corner of screen
-        x = 0
-        y = 0
+        # Align window to top-left corner of the current screen
+        x = screen_x
+        y = screen_y
 
         return x, y, width, height
 
     def _restore_window_geometry(self) -> None:
         """Restore window geometry from settings."""
-        # Always use adaptive window size (60% of screen, top-left aligned)
         x, y, width, height = self._get_adaptive_window_size(WINDOW_TYPE_MAIN)
+        self.setWindowState(self.windowState() & ~Qt.WindowMaximized)
         self.setGeometry(x, y, width, height)
+        self.setWindowState(self.windowState() | Qt.WindowMaximized)
 
-        # Also set central widget max size to prevent expansion
-        if self.centralWidget():
-            self.centralWidget().setMaximumSize(width, height)
+    def showEvent(self, event) -> None:
+        """Ensure final windowed geometry is correct after native frame creation."""
+        super().showEvent(event)
+        self._enforce_window_size()
 
     def _on_tab_file_selected(self, file_name: str) -> None:
         """Handle file selection in current tab."""
@@ -1219,7 +1221,7 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event) -> None:
         """Handle window close event."""
-        # Don't save window geometry - always use 90% screen size on startup
+        # Don't save window geometry - always use adaptive screen size on startup
 
         # Save session
         self._save_session()
