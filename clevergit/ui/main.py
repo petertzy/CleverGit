@@ -45,7 +45,7 @@ def main() -> None:
 
     # Create and show main window
     window = MainWindow()
-    window.show()
+    window.showMaximized()
 
     sys.exit(app.exec())
 
